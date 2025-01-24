@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+</head>
+<body>
+
+
+    <button onclick="redirectToAniList()">Se connecter à AniList</button>
+    <script>
+        function redirectToAniList() {
+            const clientId = '23905';
+            const redirectUri = 'http://localhost:3000/callback';
+            const authUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+
+            window.location.href = authUrl;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <button onclick="ajoutListAnime()">test</button>
+    <input type="number" id="idHyakanime">
+    <script>
+        function ajoutListAnime() {
+
+            const idHyakanime = document.getElementById('idHyakanime').value;
+            console.log(idHyakanime)
+
+            fetch('http://localhost:3000/test', {
+                method: 'GET',
+                credentials: 'include',
+            })
+                .then(response => response.json())
+                .then(data => {
+                console.log(data)
+            }).catch(error => {
+                console.error(error)
+            })
+        }
+
+    </script>
+</body>
+</html>
