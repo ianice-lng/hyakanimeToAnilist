@@ -5,7 +5,8 @@ Pour cela il faut installer nodejs et npm
 npm install
 ```
 Il faut creer un fichier .env à la racine du projet avec les variables suivantes
-```SESSION_SECRET=ma-super-cle-secrete
+```
+SESSION_SECRET=ma-super-cle-secrete
 CLIENT_ID=mon-client-id-anilist
 CLIENT_SECRET=mon-client-secret-anilist
 ```
@@ -14,4 +15,3 @@ Ensuite plus qu'a lancer le main.js
 node main.js
 ```
 Et lancer le fichier index.html dans un navigateur
-```
