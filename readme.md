@@ -14,4 +14,7 @@ Ensuite plus qu'a lancer le main.js
 ```bash
 node main.js
 ```
-Et lancer le fichier index.html dans un navigateur
+Et lancer la commande
+```bash
+python3 -m http.server
+```
