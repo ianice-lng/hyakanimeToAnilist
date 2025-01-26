@@ -3,29 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="./style/card.css">
 </head>
 <body>
     <h1>Dashboard</h1>
-    <button onclick="ajoutListAnime()">test</button>
-    <input type="number" id="idHyakanime">
-    <script>
-        function ajoutListAnime() {
+    <input type="search" id="searchBarUser">
+    <button onclick="searchUserInHyakanime()">search</button>
+    <ul id="searchResult" class="list"></ul>
+    <div class="infoUser">
+        <h2>Informations sur l'utilisateur</h2>
+        <ul class="list" id="userAnimeList">
 
-            const idHyakanime = document.getElementById('idHyakanime').value;
-            console.log(idHyakanime)
-
-            fetch('http://localhost:3000/test', {
-                method: 'GET',
-                credentials: 'include',
-            })
-                .then(response => response.json())
-                .then(data => {
-                console.log(data)
-            }).catch(error => {
-                console.error(error)
-            })
-        }
-
-    </script>
+        </ul>
+    </div>
+    <script src="./script/searchUserInHyakanime.js"></script>
 </body>
 </html>
