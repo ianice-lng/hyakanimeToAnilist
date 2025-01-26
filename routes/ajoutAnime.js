@@ -5,32 +5,31 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 
 
-router.get('/test', async (req, res) => {
-    const token = req.cookies.access_token;
-    console.log(req.cookies)
-    console.log("JE SUIS DANS LE TEST")
+router.post('/ajout', async (req, res) => {
+    const token = req.session.token;
+    console.log('Token dans la session:', token);
+    const body = req.body;
+
     if (!token) {
         console.error("t'es nul")
         return res.status(401).send('Non authentifié');
     }
-    return console.log(token)
+    console.log("azy je suis trop le goat")
     const hyakanimeProgressResponse = await axios.get('https://api-v2.hyakanime.fr/progression/anime/16746569-c5ba-491d-a1c4-a8b8a68cf8c5');
-    let nbrAnime = 0;
-    setInterval(async () => {
+    let nbrAnime = 350;
+    const intervalId = setInterval(async () => {
     const hyakanimeProgress = await hyakanimeProgressResponse.data[nbrAnime]
         nbrAnime++;
+        if(hyakanimeProgressResponse.data.length === nbrAnime){
+            clearInterval(intervalId)
+        }
     const hyakanimeResponse = await axios.get(`https://api-v2.hyakanime.fr/anime/${hyakanimeProgress.media.id}`);
     const hyakanimeInfo = await hyakanimeResponse.data[0]
     const idAnilist = await hyakanimeInfo.idAnilist;
 
     const progress = await hyakanimeProgress.progression.progression;
     let status = hyakanimeProgress.progression.status;
-    console.log({
-        "idAnilist": idAnilist,
-        "progress": progress,
-        "status": status,
-        "title": hyakanimeInfo.title
-    })
+
 
     switch (status){
         case 1:
@@ -50,10 +49,17 @@ router.get('/test', async (req, res) => {
             break;
     }
 
-
+        console.log({
+            "idAnilist": idAnilist,
+            "progress": progress,
+            "status": status,
+            "title": hyakanimeInfo.title
+        })
 
     //await addAnimeToAnilist(idAnilist, token, progress, status)
     }, 1000);
+
+
     res.json({"status": "encours"})
 });
 

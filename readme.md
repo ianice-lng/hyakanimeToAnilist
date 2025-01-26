@@ -18,3 +18,4 @@ Et lancer la commande
 ```bash
 python3 -m http.server
 ```
+et allez sur http://localhost:8000

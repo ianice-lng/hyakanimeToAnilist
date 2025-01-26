@@ -20,9 +20,68 @@ router.get('/callback', async (req, res) => {
         });
 
         const { access_token } = response.data;
-        // Stocke le token dans la session ou base de données
-        req.session.token = access_token;
-        res.redirect('/api/user'); // Redirection vers une page sécurisée
+        try {
+            const response = await axios.post(
+                'https://graphql.anilist.co',
+                {
+                    query: `
+          query {
+            Viewer {
+              id
+              name
+              about
+              avatar {
+                large
+              }
+                statistics {
+                    anime {
+                    count
+                    }
+                    manga {
+                    count
+                    }
+                }
+                favourites {
+                    anime {
+                    nodes {
+                        title {
+                        romaji
+                        english
+                        native
+                        }
+                        coverImage {
+                        large
+                        }
+                    }
+                    }
+                }
+                
+            }
+          }
+        `,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            );
+
+
+            req.session.token = access_token;
+            req.session.save((err) => {
+
+                if (err) {
+                    console.error('Erreur lors de la sauvegarde de la session:', err);
+                    return res.status(500).send('Erreur de session');
+                }
+                console.log('Après sauvegarde:', req.session);
+                res.redirect("http://localhost:8000/dashboard.html"); // Redirection une fois la session sauvegardée
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la récupération des données');
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send('Erreur lors de l\'échange du code');
