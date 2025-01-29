@@ -7,7 +7,8 @@ const cookieParser = require('cookie-parser');
 
 router.post('/ajout', async (req, res) => {
     const token = req.session.token;
-    console.log('Token dans la session:', token);
+    const uid = req.body.uid;
+
     const body = req.body;
 
     if (!token) {
@@ -15,10 +16,11 @@ router.post('/ajout', async (req, res) => {
         return res.status(401).send('Non authentifié');
     }
     console.log("azy je suis trop le goat")
-    const hyakanimeProgressResponse = await axios.get('https://api-v2.hyakanime.fr/progression/anime/16746569-c5ba-491d-a1c4-a8b8a68cf8c5');
-    let nbrAnime = 350;
+    const hyakanimeProgressResponse = await axios.get('https://api-v2.hyakanime.fr/progression/anime/' + uid);
+    let nbrAnime = 0;
     const intervalId = setInterval(async () => {
     const hyakanimeProgress = await hyakanimeProgressResponse.data[nbrAnime]
+        console.log(nbrAnime, "/",hyakanimeProgressResponse.data.length)
         nbrAnime++;
         if(hyakanimeProgressResponse.data.length === nbrAnime){
             clearInterval(intervalId)
@@ -49,14 +51,9 @@ router.post('/ajout', async (req, res) => {
             break;
     }
 
-        console.log({
-            "idAnilist": idAnilist,
-            "progress": progress,
-            "status": status,
-            "title": hyakanimeInfo.title
-        })
 
-    //await addAnimeToAnilist(idAnilist, token, progress, status)
+
+    await addAnimeToAnilist(idAnilist, token, progress, status)
     }, 1000);
 
 

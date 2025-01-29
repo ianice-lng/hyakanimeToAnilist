@@ -27,18 +27,20 @@ async function searchUserInHyakanime() {
 async function selectUser(user) {
     const userAnimeList = document.getElementById('userAnimeList');
     userAnimeList.innerHTML = '';
+    const button =  document.getElementById("transferToAniList")
+    button.onclick = () => {
+        console.log(user.uid);
+        ajoutListAnime(user.uid);
+    }
     const response = await fetch(`https://api-v2.hyakanime.fr/progression/anime/${user.uid}`);
-    console.log(`https://api-v2.hyakanime.fr/progression/anime/${user.uid}`);
     let data = await response.json();
     data.reverse();
-    console.log(data);
     data.map((anime) => {
         let status = anime.progression.status;
         let title = anime.media.title !== undefined ? anime.media.title : anime.media.romanji;
         if(title === ""){
             title = "Titre inconnu"
         }
-        console.log(`status: ${status} - title: ${title}`);
         switch (status){
             case 1:
                 status = "CURRENT"
@@ -68,16 +70,17 @@ async function selectUser(user) {
         userAnimeList.appendChild(li);
 })
 
-    //ajoutListAnime();
+
 }
 
-function ajoutListAnime() {
+function ajoutListAnime(uid) {
 
     fetch('http://localhost:3000/ajout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ uid: uid }),
         credentials: 'include',
     })
         .then(response => response.json())

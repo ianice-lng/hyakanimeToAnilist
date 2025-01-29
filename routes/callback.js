@@ -75,7 +75,6 @@ router.get('/callback', async (req, res) => {
                     console.error('Erreur lors de la sauvegarde de la session:', err);
                     return res.status(500).send('Erreur de session');
                 }
-                console.log('Après sauvegarde:', req.session);
                 res.redirect("http://localhost:8000/dashboard.html"); // Redirection une fois la session sauvegardée
             });
         } catch (error) {
